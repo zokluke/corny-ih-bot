@@ -4,10 +4,6 @@ from discord.ext import commands
 import random
 import re
 from random import choice
-import json
-import requests
-import aiohttp
-import io
 
 noPerms = "s-sorry daddy... you are missing perms... >w<"
 
@@ -22,22 +18,7 @@ async def rape(ctx, *, message=None):
 async def say(ctx, *, message=None):
     await ctx.send(message)
 
- #choose
-            
- @client.command()
- async def choose(ctx, *choices: str):
-      """Choose between multiple options.
-        To denote options which include whitespace, you should use
-        double quotes.
-      """
-      try:
-        choices = [(c) for c in choices]
-        if len(choices) < 2:
-            await ctx.send("Not enough options to pick from.")
-        else:
-            await ctx.send(f' 🤔 | My choice is `{choice(choices)}`')
-      except Exception as e:
-            await ctx.send(e)
+
 
 #banner
 
@@ -78,7 +59,7 @@ async def clap(ctx, *, message):
 #8ball
     
 @client.command(aliases=['8ball', 'question'])
-async def _8ball(ctx, *, question):
+async def _8ball(self, ctx, *, question):
         """Ask fta your questions"""
         responses = [
         'It is certain.', 'It is decidedly so.', 'Without a doubt.',
@@ -146,6 +127,10 @@ async def banggang(ctx):
   await ctx.channel.send("https://cdn.discordapp.com/attachments/823736494610972692/823756133704400956/rprifo34ef.gif")
 
 @client.command()
+async def liberal(ctx):
+  await ctx.channel.send("https://cdn.discordapp.com/attachments/816855246759788575/817903570699288576/videoplayback_63.mp4")
+
+@client.command()
 @has_permissions(manage_messages=True)
 async def delrole(ctx, *, rolename):
   role = discord.utils.get(ctx.guild.roles, name=rolename)
@@ -159,15 +144,13 @@ async def delrole(ctx, *, rolename):
     await ctx.channel.send("that role doesnt exist dummy!!")
 
 @client.command()
-async def attic(ctx):
-	await ctx.channel.send("https://cdn.discordapp.com/attachments/805610014814240818/823805119946686514/image0.png")
-
-@client.command()
 @has_permissions(manage_messages=True)
 async def unban(ctx, *, member):
 	banned_users = await ctx.guild.bans()
 	
-
+@client.command()
+async def attic(ctx):
+  await ctx.channel.send("https://cdn.discordapp.com/attachments/805610014814240818/823805119946686514/image0.png")
 
 	for ban_entry in banned_users:
 		user = ban_entry.user
@@ -178,137 +161,6 @@ async def unban(ctx, *, member):
 			return
 
 
-@client.command(pass_context=True)
-async def kanye(ctx):
-	res = requests.get("https://api.kanye.rest/")
-	res = res.json()
-	quote = res["quote"]
-	embed = discord.Embed(description=f"{quote} -- Kanye West")
-	embed.set_footer(text="random kanye west quote")
-	await ctx.send(embed=embed)
-	
-	
-@client.command(pass_context=True, aliases=["yt"])
-async def youtube(ctx,*,query):
-		      		async with aiohttp.ClientSession() as cs:
-		      			async with cs.get(f'https://normal-api.ml/youtube/searchvideo?query={query}') as r:
-		      				response = await r.text()
-		      				res = json.loads(response)
-		      				if res["status"] != "200":
-		      					await ctx.send("can't find video #sad")
-		      					return
-		      				url = res["url"]
-		      				await ctx.send(f"{url}")
-		      				
-		      				
-@client.command(pass_context=True,aliases=['memes'])
-async def meme(ctx):
-    url = "https://meme-api.herokuapp.com/gimme"
-    response = requests.request("GET", url)
-    memedat = json.loads(response.text)
-    postlink = memedat["postLink"]
-    subreddit = memedat["subreddit"]
-    title = memedat["title"]
-    url = memedat["url"]
-
-    embed = discord.Embed(
-        title=f"{title}",
-        url=f"{postlink}")
-    embed.set_footer(text=f"r/{subreddit}")
-    embed.set_image(url=url)
-    await ctx.send(embed=embed)
-    
-    
-@client.command(pass_context=True)
-async def neko(ctx):
-    
-    url = "https://waifu.pics/api/sfw/neko"
-    res1 = requests.request("GET", url)
-    res = json.loads(res1.text)
-    link = res['url']
-    embed = discord.Embed(title="nyaa~",url=link)
-    embed.set_image(url=link)
-    await ctx.send(embed=embed)
-    
-    
-
-@client.command(pass_context=True, aliases=['w'])
-async def waifu(ctx):
-    url = "https://waifu.pics/api/sfw/waifu"
-    res1 = requests.request("GET", url)
-    res = json.loads(res1.text)
-    waifu = res['url']
-    embed = discord.Embed(title="here's your waifu",url=waifu)
-    embed.set_image(url=waifu)
-    await ctx.send(embed=embed)
-
-#ping
-    
-@client.command()
-async def ping(ctx):
-        """Check the bot's latency."""
-        try:
-            await ctx.send(f'Pong! {round(client.latency * 1000)} ms')
-        except Exception as e:
-            await ctx.send(e)
-            
-#avatar
-
-
-    
-@client.command(aliases=['av'])
-async def avatar(ctx, user : discord.Member=None):
-        '''Check someone's avatar'''
-        try: 
-            if user == None:
-                embed1 = discord.Embed(title=f"Here's is the avatar of {ctx.author}", color=discord.Colour.blue())
-                embed1.set_image(url=ctx.author.avatar_url)
-
-                await ctx.send(embed=embed1)
-                return True
-
-            else:
-                if isinstance(user, discord.member.Member):
-                    _embed = discord.Embed(title=f" Here is the avatar of {user}", color=discord.Colour.blue())
-                    _embed.set_image(url=user.avatar_url)
-
-                    await ctx.send(embed=_embed)
-                    return True
-
-                await ctx.send(f"Couldn't find the user as `{user}`")
-                
-        except Exception as e:
-            await ctx.send(e)
-	
-@client.command()
-async def wasted(ctx, member: discord.Member=None):
-  if not member:
-    member = ctx.author
-  wastedsession = aiohttp.ClientSession()
-  async with wastedsession.get(f"https://some-random-api.ml/canvas/wasted?avatar={member.avatar_url_as(format='png')}") as img:
-    if img.status != 200:
-          await ctx.send("no image!! absolute FAILURE")
-          await wastedsession.close()      
-    else:
-      data = io.BytesIO(await img.read())
-      await ctx.send(file=discord.File(data, 'wasted.png'))
-      await wastedsession.close()
-			       
-@client.command()
-async def gay(ctx, member: discord.Member=None):
-  if not member:
-    member = ctx.author
-          
-  wastedsession = aiohttp.ClientSession()
-  async with wastedsession.get(f"https://some-random-api.ml/canvas/gay?avatar={member.avatar_url_as(format='png')}") as img:
-    if img.status != 200:
-      await ctx.send("no image!! absolute FAILURE")
-      await wastedsession.close()      
-    else:
-      data = io.BytesIO(await img.read())
-      await ctx.send(file=discord.File(data, 'gay.png'))
-      await wastedsession.close()
-		      				
 client.run("")
   
   
