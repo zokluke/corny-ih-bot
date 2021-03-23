@@ -203,6 +203,30 @@ async def meme(ctx):
     embed.set_footer(text=f"r/{subreddit}")
     embed.set_image(url=url)
     await ctx.send(embed=embed)
+    
+    
+@client.command(pass_context=True)
+async def neko(ctx):
+    
+    url = "https://waifu.pics/api/sfw/neko"
+    res1 = requests.request("GET", url)
+    res = json.loads(res1.text)
+    link = res['url']
+    embed = discord.Embed(title="nyaa~",url=link,color=random.choice(clr))
+    embed.set_image(url=link)
+    await ctx.send(embed=embed)
+    
+    
+
+@client.command(pass_context=True, aliases=['w'])
+async def waifu(ctx):
+    url = "https://waifu.pics/api/sfw/waifu"
+    res1 = requests.request("GET", url)
+    res = json.loads(res1.text)
+    waifu = res['url']
+    embed = discord.Embed(title="here's your waifu",url=waifu,color=random.choice(clr))
+    embed.set_image(url=waifu)
+    await ctx.send(embed=embed)
 		      				
 client.run("")
   
