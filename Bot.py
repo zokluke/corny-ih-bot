@@ -24,8 +24,8 @@ async def say(ctx, *, message=None):
 
  #choose
             
- @client.command()
- async def choose(ctx, *choices: str):
+@client.command()
+async def choose(ctx, *choices: str):
       """Choose between multiple options.
         To denote options which include whitespace, you should use
         double quotes.
@@ -77,7 +77,7 @@ async def clap(ctx, *, message):
 	
 #8ball
     
-@client.command(aliases=['8ball', 'question'])
+@client.command(name='8ball', aliases=['question'])
 async def _8ball(ctx, *, question):
         """Ask fta your questions"""
         responses = [
@@ -308,6 +308,10 @@ async def gay(ctx, member: discord.Member=None):
       data = io.BytesIO(await img.read())
       await ctx.send(file=discord.File(data, 'gay.png'))
       await wastedsession.close()
+
+@client.command()
+async def ratio(ctx, *arg):
+  await ctx.send(f"{arg} has been ratioed by {ctx.author.mention} with the help of the Yang Gang! https://tenor.com/view/ratioed-yang-gang-andrew-yang-yang2020-congratulations-gif-14447592")
 		      				
 client.run("")
   
