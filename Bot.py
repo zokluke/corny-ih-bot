@@ -145,8 +145,8 @@ async def unban(ctx, *, member):
 	banned_users = await ctx.guild.bans()
 	
 @client.command()
-async def amogus(ctx):
-  await ctx.channel.send("https://cdn.discordapp.com/attachments/823401610700521482/823416727567728670/Among_Us_Treatment.mp4")
+async def attic(ctx):
+  await ctx.channel.send("https://cdn.discordapp.com/attachments/805610014814240818/823805119946686514/image0.png")
 
 	for ban_entry in banned_users:
 		user = ban_entry.user
