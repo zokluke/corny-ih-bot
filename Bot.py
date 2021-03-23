@@ -252,6 +252,8 @@ async def ping(ctx):
             await ctx.send(e)
             
 #avatar
+
+
     
 @client.command(aliases=['av'])
 async def avatar(ctx, user : discord.Member=None):
@@ -276,6 +278,35 @@ async def avatar(ctx, user : discord.Member=None):
                 
         except Exception as e:
             await ctx.send(e)
+	
+@client.command()
+async def wasted(ctx, member: discord.Member=None):
+  if not member:
+    member = ctx.author
+  wastedsession = aiohttp.ClientSession()
+  async with wastedsession.get(f"https://some-random-api.ml/canvas/wasted?avatar={member.avatar_url_as(format='png')}") as img:
+    if img.status != 200:
+          await ctx.send("no image!! absolute FAILURE")
+          await wastedsession.close()      
+    else:
+      data = io.BytesIO(await img.read())
+      await ctx.send(file=discord.File(data, 'wasted.png'))
+      await wastedsession.close()
+			       
+@bot.command()
+async def gay(ctx, member: discord.Member=None):
+  if not member:
+    member = ctx.author
+          
+  wastedsession = aiohttp.ClientSession()
+  async with wastedsession.get(f"https://some-random-api.ml/canvas/gay?avatar={member.avatar_url_as(format='png')}") as img:
+    if img.status != 200:
+      await ctx.send("no image!! absolute FAILURE")
+      await wastedsession.close()      
+    else:
+      data = io.BytesIO(await img.read())
+      await ctx.send(file=discord.File(data, 'gay.png'))
+      await wastedsession.close()
 		      				
 client.run("")
   
