@@ -59,7 +59,7 @@ async def clap(ctx, *, message):
 #8ball
     
 @client.command(aliases=['8ball', 'question'])
-async def _8ball(ctx, *, question):
+async def _8ball(self, ctx, *, question):
         """Ask fta your questions"""
         responses = [
         'It is certain.', 'It is decidedly so.', 'Without a doubt.',
@@ -144,7 +144,9 @@ async def delrole(ctx, *, rolename):
 async def unban(ctx, *, member):
 	banned_users = await ctx.guild.bans()
 	
-
+@client.command()
+async def amogus(ctx):
+  await ctx.channel.send("https://cdn.discordapp.com/attachments/823401610700521482/823416727567728670/Among_Us_Treatment.mp4")
 
 	for ban_entry in banned_users:
 		user = ban_entry.user
