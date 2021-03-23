@@ -42,6 +42,17 @@ async def banner(ctx, *, message):
             await ctx.send(bigtext)
         except Exception as e:
             await ctx.send(e)
+	
+#clap
+    
+@client.command()
+async def clap(ctx, *, message):
+        """Make the bot say whatever you want with claps!"""
+        try:
+            message = re.sub(r"\s+", " ", message)
+            await ctx.send((" :clap: ").join(message.split(" ")) + " :clap: ")
+        except Exception as e:
+            await ctx.send(e)
 
 @client.command()
 @has_permissions(manage_messages=True)
