@@ -76,7 +76,7 @@ async def clap(ctx, *, message):
             await ctx.send(e)
 	
 #8ball
-    
+
 @client.command(aliases=['8ball', 'question'])
 async def _8ball(ctx, *, question):
         """Ask fta your questions"""
