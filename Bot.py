@@ -24,22 +24,6 @@ async def say(ctx, *, message=None):
 
  #choose
             
- @client.command()
- async def choose(ctx, *choices: str):
-      """Choose between multiple options.
-        To denote options which include whitespace, you should use
-        double quotes.
-      """
-      try:
-        choices = [(c) for c in choices]
-        if len(choices) < 2:
-            await ctx.send("Not enough options to pick from.")
-        else:
-            await ctx.send(f' 🤔 | My choice is `{choice(choices)}`')
-      except Exception as e:
-            await ctx.send(e)
-
-#banner
 
 @client.command()
 async def banner(ctx, *, message):
@@ -76,7 +60,7 @@ async def clap(ctx, *, message):
             await ctx.send(e)
 	
 #8ball
-
+    
 @client.command(aliases=['8ball', 'question'])
 async def _8ball(ctx, *, question):
         """Ask fta your questions"""
@@ -220,6 +204,7 @@ async def meme(ctx):
     
     
 @client.command(pass_context=True)
+@commands.cooldown(1, 30, commands.BucketType.guild)
 async def neko(ctx):
     
     url = "https://waifu.pics/api/sfw/neko"
@@ -233,6 +218,7 @@ async def neko(ctx):
     
 
 @client.command(pass_context=True, aliases=['w'])
+@commands.cooldown(1, 30, commands.BucketType.guild)
 async def waifu(ctx):
     url = "https://waifu.pics/api/sfw/waifu"
     res1 = requests.request("GET", url)
@@ -308,6 +294,118 @@ async def gay(ctx, member: discord.Member=None):
       data = io.BytesIO(await img.read())
       await ctx.send(file=discord.File(data, 'gay.png'))
       await wastedsession.close()
+
+@client.command()
+async def triggered(ctx, member: discord.Member=None):
+  if not member:
+    member = ctx.author
+          
+  wastedsession = aiohttp.ClientSession()
+  async with wastedsession.get(f"https://some-random-api.ml/canvas/triggered?avatar={member.avatar_url_as(format='png')}") as img:
+    if img.status != 200:
+      await ctx.send("no image!! absolute FAILURE")
+      await wastedsession.close()      
+    else:
+      data = io.BytesIO(await img.read())
+      await ctx.send(file=discord.File(data, 'triggered.gif'))
+      await wastedsession.close()
+
+@client.command(pass_context=True)
+async def hentai(ctx):
+    if ctx.message.channel.is_nsfw():
+        url = "https://waifu.pics/api/nsfw/waifu"
+        res1 = requests.request("GET", url)
+        res = json.loads(res1.text)
+        waifu = res['url']
+        embed = discord.Embed(title="owo",url=waifu)
+        embed.set_image(url=waifu)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.channel.send("this channel is sfw :((")
+
+@client.command(pass_context=True)
+async def traphentai(ctx):
+    if ctx.message.channel.is_nsfw():
+        url = "https://waifu.pics/api/nsfw/trap"
+        res1 = requests.request("GET", url)
+        res = json.loads(res1.text)
+        waifu = res['url']
+        embed = discord.Embed(title="😳",url=waifu)
+        embed.set_image(url=waifu)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.channel.send("this channel is sfw :((")
+
+@client.command(pass_context=True)
+async def bjhentai(ctx):
+    if ctx.message.channel.is_nsfw():
+        url = "https://waifu.pics/api/nsfw/blowjob"
+        res1 = requests.request("GET", url)
+        res = json.loads(res1.text)
+        waifu = res['url']
+        embed = discord.Embed(title="woag",url=waifu)
+        embed.set_image(url=waifu)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.channel.send("this channel is sfw :((")
+
+        
+
+
+@client.command(pass_context=True)
+async def nekohentai(ctx):
+    if ctx.message.channel.is_nsfw():
+        url = "https://waifu.pics/api/nsfw/neko"
+        res1 = requests.request("GET", url)
+        res = json.loads(res1.text)
+        waifu = res['url']
+        embed = discord.Embed(title="uwu",url=waifu)
+        embed.set_image(url=waifu)
+        await ctx.send(embed=embed)
+    else:
+        await ctx.channel.send("this channel is sfw :((")
+
+@client.command(aliases=["lrcs"])
+async def lyrics(ctx, *, arg):
+    """
+    An Example of Lyrics Command using discord.py Calling SRA's Lyrics Endpoint.
+    Usage : [command_prefix]lyrics <song name>
+    """
+    await ctx.trigger_typing()
+    arg = arg.replace(" ", "+")
+
+    lrcsession = aiohttp.ClientSession()
+    async with lrcsession.get(
+        f"https://some-random-api.ml/lyrics?title={arg}"
+    ) as lrcgetlnk:
+        lrcdata = await lrcgetlnk.json()
+    try:
+        lyrrc = str(lrcdata["lyrics"])
+        for chunk in [lyrrc[i : i + 2000] for i in range(0, len(lyrrc), 2000)]:
+            embed = discord.Embed(
+                title=f"**{(str(lrcdata['title']))} by {(str(lrcdata['author']))}**",
+                description=chunk,
+                color = 0x000000,
+            )
+            embed.set_footer(
+                text=f"Requested by {ctx.author}",
+                icon_url=ctx.author.avatar_url,
+            )
+            await ctx.send(embed=embed)
+    except discord.HTTPException:
+        embe = discord.Embed(
+            title=f"**{(str(lrcdata['title']))} by {(str(lrcdata['author']))}**",
+            color=0x000000,
+            description=chunk,
+        )
+        embe.set_footer(
+            text=f"Requested by {ctx.author}",
+            icon_url=ctx.author.avatar_url,
+        )
+        embe.timestamp = datetime.datetime.utcnow()
+        await ctx.send(embed=embe)
+    await lrcsession.close()
+			       #thanks 2 randomapi
 		      				
 client.run("")
   
