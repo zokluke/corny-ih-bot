@@ -1,8 +1,8 @@
 import discord
 from discord.ext.commands import has_permissions, MissingPermissions
 from discord.ext import commands
-from replit import db
 import random
+import re
 from random import choice
 
 noPerms = "s-sorry daddy... you are missing perms... >w<"
@@ -12,7 +12,7 @@ client = commands.Bot(command_prefix='>')
 @client.command()
 async def rape(ctx, *, message=None):
     sus=message.lower()
-      await ctx.channel.send(f"{ctx.message.author.mention} raped {sus} 😈")
+    await ctx.channel.send(f"{ctx.message.author.mention} raped {sus} 😈")
 
 @client.command()
 async def say(ctx, *, message=None):
@@ -75,40 +75,6 @@ async def _8ball(self, ctx, *, question):
             await ctx.send(f'Question: {question}\nAnswer: {random.choice(responses)}')
         except Exception as e:
             await ctx.send(e)
-
-@client.command()
-@has_permissions(manage_messages=True)
-async def contain(ctx, user : discord.Member, *, reason = None):
-  cntained = discord.utils.get(ctx.guild.roles, name="dumbass")
-  if not cntained in user.roles:
-    print(f"User contained: {user}")
-    trollrole = discord.utils.get(ctx.guild.roles, name="Troll")
-    fedrole = discord.utils.get(ctx.guild.roles, name="Federal")
-    therole = discord.utils.get(ctx.guild.roles, name="The")
-    elrole = discord.utils.find(lambda r: r.name == 'Elite Trolls!', ctx.guild.roles)
-    if trollrole in user.roles:
-      db[user.id] = "troll" # sets the role "troll" in database as user saved role
-    elif fedrole in user.roles:
-      db[user.id] = "federal" # sets the role "federal" in database as user saved role
-    elif therole in user.roles:
-      db[user.id] = "the" # sets the role "the" in database as user savmatches = db.prefix("prefix")ed role
-    elif elrole in user.roles:
-      db[user.id] = "elite" # sets the role "elite trolls!" in database as user saved role
-
-    if db[user.id] == "troll":
-      await client.remove_roles(user, trollrole)
-      await client.add_roles(user, cntained)
-    elif db[user.id] == "federal":
-      await client.add_roles(user, cntained)
-    elif db[user.id] == "the":
-      await client.add_roles(user, cntained)
-      await client.remove_roles(user, trollrole, fedrole, therole)
-    elif db[user.id] == "elite":
-      await client.add_roles(user, cntained)
-      await client.remove_roles(user, trollrole, fedrole, therole, elrole)
-    await ctx.send(f"damn homie! you really just contained {user.name}!")
-  else:
-    ctx.send(f"sorry homie! {user.name} is already contained!")
 
 @client.command()
 @has_permissions(manage_messages=True)
