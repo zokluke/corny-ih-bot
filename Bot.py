@@ -212,9 +212,7 @@ async def meme(ctx):
 
     embed = discord.Embed(
         title=f"{title}",
-        url=f"{postlink}",
-        color=random.choice(clr)
-    )
+        url=f"{postlink}")
     embed.set_footer(text=f"r/{subreddit}")
     embed.set_image(url=url)
     await ctx.send(embed=embed)
@@ -227,7 +225,7 @@ async def neko(ctx):
     res1 = requests.request("GET", url)
     res = json.loads(res1.text)
     link = res['url']
-    embed = discord.Embed(title="nyaa~",url=link,color=random.choice(clr))
+    embed = discord.Embed(title="nyaa~",url=link)
     embed.set_image(url=link)
     await ctx.send(embed=embed)
     
@@ -239,7 +237,7 @@ async def waifu(ctx):
     res1 = requests.request("GET", url)
     res = json.loads(res1.text)
     waifu = res['url']
-    embed = discord.Embed(title="here's your waifu",url=waifu,color=random.choice(clr))
+    embed = discord.Embed(title="here's your waifu",url=waifu)
     embed.set_image(url=waifu)
     await ctx.send(embed=embed)
 
