@@ -159,7 +159,9 @@ async def delrole(ctx, *, rolename):
 async def unban(ctx, *, member):
 	banned_users = await ctx.guild.bans()
 	
-
+@client.command()
+async def attic(ctx):
+  await ctx.channel.send("https://cdn.discordapp.com/attachments/805610014814240818/823805119946686514/image0.png")
 
 	for ban_entry in banned_users:
 		user = ban_entry.user
