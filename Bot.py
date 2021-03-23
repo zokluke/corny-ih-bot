@@ -21,7 +21,22 @@ async def rape(ctx, *, message=None):
 async def say(ctx, *, message=None):
     await ctx.send(message)
 
-
+ #choose
+            
+ @client.command()
+ async def choose(ctx, *choices: str):
+      """Choose between multiple options.
+        To denote options which include whitespace, you should use
+        double quotes.
+      """
+      try:
+        choices = [(c) for c in choices]
+        if len(choices) < 2:
+            await ctx.send("Not enough options to pick from.")
+        else:
+            await ctx.send(f' 🤔 | My choice is `{choice(choices)}`')
+      except Exception as e:
+            await ctx.send(e)
 
 #banner
 
