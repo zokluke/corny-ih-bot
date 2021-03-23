@@ -406,6 +406,10 @@ async def lyrics(ctx, *, arg):
         await ctx.send(embed=embe)
     await lrcsession.close()
 			       #thanks 2 randomapi
+
+@client.command()
+async def ratio(ctx, *, arg):
+  await ctx.send(f"{arg} has been ratioed by {ctx.author.mention} with the help of the Yang Gang! https://tenor.com/view/ratioed-yang-gang-andrew-yang-yang2020-congratulations-gif-14447592")
 		      				
 client.run("")
   
