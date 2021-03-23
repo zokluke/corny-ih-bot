@@ -59,7 +59,7 @@ async def clap(ctx, *, message):
 #8ball
     
 @client.command(aliases=['8ball', 'question'])
-async def _8ball(self, ctx, *, question):
+async def _8ball(ctx, *, question):
         """Ask fta your questions"""
         responses = [
         'It is certain.', 'It is decidedly so.', 'Without a doubt.',
