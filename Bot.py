@@ -10,9 +10,7 @@ client = commands.Bot(command_prefix='>')
 @client.command()
 async def rape(ctx, *, message=None):
     sus=message.lower()
-    if not "@everyone" in sus:
-      if not "@here" in sus:
-        await ctx.channel.send(f"{ctx.message.author.mention} raped {sus} 😈")
+      await ctx.channel.send(f"{ctx.message.author.mention} raped {sus} 😈")
 
 @client.command()
 async def say(ctx, *, message=None):
