@@ -6,7 +6,8 @@ import re
 from random import choice
 import json
 import requests
-
+import aiohttp
+import io
 
 noPerms = "s-sorry daddy... you are missing perms... >w<"
 
