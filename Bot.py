@@ -2,6 +2,7 @@ import discord
 from discord.ext.commands import has_permissions, MissingPermissions
 from discord.ext import commands
 from replit import db
+import re
 
 noPerms = "s-sorry daddy... you are missing perms... >w<"
 
