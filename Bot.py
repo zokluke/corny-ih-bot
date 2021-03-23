@@ -21,7 +21,22 @@ async def rape(ctx, *, message=None):
 async def say(ctx, *, message=None):
     await ctx.send(message)
 
-
+ #choose
+            
+ @client.command()
+ async def choose(ctx, *choices: str):
+      """Choose between multiple options.
+        To denote options which include whitespace, you should use
+        double quotes.
+      """
+      try:
+        choices = [(c) for c in choices]
+        if len(choices) < 2:
+            await ctx.send("Not enough options to pick from.")
+        else:
+            await ctx.send(f' 🤔 | My choice is `{choice(choices)}`')
+      except Exception as e:
+            await ctx.send(e)
 
 #banner
 
@@ -143,6 +158,10 @@ async def delrole(ctx, *, rolename):
     await ctx.channel.send("that role doesnt exist dummy!!")
 
 @client.command()
+async def attic(ctx):
+	await ctx.channel.send("https://cdn.discordapp.com/attachments/805610014814240818/823805119946686514/image0.png")
+
+@client.command()
 @has_permissions(manage_messages=True)
 async def unban(ctx, *, member):
 	banned_users = await ctx.guild.bans()
@@ -191,7 +210,9 @@ async def meme(ctx):
     title = memedat["title"]
     url = memedat["url"]
 
-    embed = discord.Embed(title=f"{title}",url=f"{postlink}")
+    embed = discord.Embed(
+        title=f"{title}",
+        url=f"{postlink}")
     embed.set_footer(text=f"r/{subreddit}")
     embed.set_image(url=url)
     await ctx.send(embed=embed)
@@ -219,6 +240,42 @@ async def waifu(ctx):
     embed = discord.Embed(title="here's your waifu",url=waifu)
     embed.set_image(url=waifu)
     await ctx.send(embed=embed)
+
+#ping
+    
+@client.command()
+async def ping(ctx):
+        """Check the bot's latency."""
+        try:
+            await ctx.send(f'Pong! {round(client.latency * 1000)} ms')
+        except Exception as e:
+            await ctx.send(e)
+            
+#avatar
+    
+@client.command(aliases=['av'])
+async def avatar(ctx, user : discord.Member=None):
+        '''Check someone's avatar'''
+        try: 
+            if user == None:
+                embed1 = discord.Embed(title=f"Here's is the avatar of {ctx.author}", color=discord.Colour.blue())
+                embed1.set_image(url=ctx.author.avatar_url)
+
+                await ctx.send(embed=embed1)
+                return True
+
+            else:
+                if isinstance(user, discord.member.Member):
+                    _embed = discord.Embed(title=f" Here is the avatar of {user}", color=discord.Colour.blue())
+                    _embed.set_image(url=user.avatar_url)
+
+                    await ctx.send(embed=_embed)
+                    return True
+
+                await ctx.send(f"Couldn't find the user as `{user}`")
+                
+        except Exception as e:
+            await ctx.send(e)
 		      				
 client.run("")
   
