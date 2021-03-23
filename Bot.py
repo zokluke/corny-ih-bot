@@ -18,7 +18,30 @@ async def say(ctx, *, message=None):
 
 
 
+#banner
 
+@client.command()
+async def banner(ctx, *, message):
+        """Emojify the text"""
+        try:
+            bigtext = ""
+            append = " "
+            for i, char in enumerate(message):
+                char = char.lower()
+                if i+1 == len(message):
+                    append = ""
+                if char.isdigit():
+                    char = f":{List.digits[char]}:"
+                elif char.isalpha():
+                    char = f":regional_indicator_{char}:"
+                elif char == " ":
+                    char *= 2
+                else:
+                    char = ""
+                bigtext += char + append
+            await ctx.send(bigtext)
+        except Exception as e:
+            await ctx.send(e)
 
 @client.command()
 @has_permissions(manage_messages=True)
