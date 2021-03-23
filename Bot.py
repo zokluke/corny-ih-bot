@@ -227,6 +227,42 @@ async def waifu(ctx):
     embed = discord.Embed(title="here's your waifu",url=waifu,color=random.choice(clr))
     embed.set_image(url=waifu)
     await ctx.send(embed=embed)
+
+#ping
+    
+@client.command()
+async def ping(ctx):
+        """Check the bot's latency."""
+        try:
+            await ctx.send(f'Pong! {round(client.latency * 1000)} ms')
+        except Exception as e:
+            await ctx.send(e)
+            
+#avatar
+    
+@client.command(aliases=['av'])
+async def avatar(ctx, user : discord.Member=None):
+        '''Check someone's avatar'''
+        try: 
+            if user == None:
+                embed1 = discord.Embed(title=f"Here's is the avatar of {ctx.author}", color=discord.Colour.blue())
+                embed1.set_image(url=ctx.author.avatar_url)
+
+                await ctx.send(embed=embed1)
+                return True
+
+            else:
+                if isinstance(user, discord.member.Member):
+                    _embed = discord.Embed(title=f" Here is the avatar of {user}", color=discord.Colour.blue())
+                    _embed.set_image(url=user.avatar_url)
+
+                    await ctx.send(embed=_embed)
+                    return True
+
+                await ctx.send(f"Couldn't find the user as `{user}`")
+                
+        except Exception as e:
+            await ctx.send(e)
 		      				
 client.run("")
   
