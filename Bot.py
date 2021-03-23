@@ -294,7 +294,7 @@ async def wasted(ctx, member: discord.Member=None):
       await ctx.send(file=discord.File(data, 'wasted.png'))
       await wastedsession.close()
 			       
-@bot.command()
+@client.command()
 async def gay(ctx, member: discord.Member=None):
   if not member:
     member = ctx.author
