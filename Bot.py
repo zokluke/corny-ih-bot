@@ -4,6 +4,9 @@ from discord.ext import commands
 import random
 import re
 from random import choice
+import json
+import requests
+
 
 noPerms = "s-sorry daddy... you are missing perms... >w<"
 
@@ -18,22 +21,7 @@ async def rape(ctx, *, message=None):
 async def say(ctx, *, message=None):
     await ctx.send(message)
 
- #choose
-            
- @client.command()
- async def choose(ctx, *choices: str):
-      """Choose between multiple options.
-        To denote options which include whitespace, you should use
-        double quotes.
-      """
-      try:
-        choices = [(c) for c in choices]
-        if len(choices) < 2:
-            await ctx.send("Not enough options to pick from.")
-        else:
-            await ctx.send(f' 🤔 | My choice is `{choice(choices)}`')
-      except Exception as e:
-            await ctx.send(e)
+
 
 #banner
 
@@ -170,6 +158,48 @@ async def unban(ctx, *, member):
 			return
 
 
+@client.command(pass_context=True)
+async def kanye(ctx):
+	res = requests.get("https://api.kanye.rest/")
+	res = res.json()
+	quote = res["quote"]
+	embed = discord.Embed(description=f"{quote} -- Kanye West")
+	embed.set_footer(text="random kanye west quote")
+	await ctx.send(embed=embed)
+	
+	
+@client.command(pass_context=True, aliases=["yt"])
+async def youtube(ctx,*,query):
+		      		async with aiohttp.ClientSession() as cs:
+		      			async with cs.get(f'https://normal-api.ml/youtube/searchvideo?query={query}') as r:
+		      				response = await r.text()
+		      				res = json.loads(response)
+		      				if res["status"] != "200":
+		      					await ctx.send("can't find video #sad")
+		      					return
+		      				url = res["url"]
+		      				await ctx.send(f"{url}")
+		      				
+		      				
+@client.command(pass_context=True,aliases=['memes'])
+async def meme(ctx):
+    url = "https://meme-api.herokuapp.com/gimme"
+    response = requests.request("GET", url)
+    memedat = json.loads(response.text)
+    postlink = memedat["postLink"]
+    subreddit = memedat["subreddit"]
+    title = memedat["title"]
+    url = memedat["url"]
+
+    embed = discord.Embed(
+        title=f"{title}",
+        url=f"{postlink}",
+        color=random.choice(clr)
+    )
+    embed.set_footer(text=f"r/{subreddit}")
+    embed.set_image(url=url)
+    await ctx.send(embed=embed)
+		      				
 client.run("")
   
   
