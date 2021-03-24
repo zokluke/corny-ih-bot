@@ -419,6 +419,9 @@ async def credits(ctx, *, arg):
 async def amogus(ctx, *, arg):  
   await ctx.send("ඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞ red is sus! ඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞ")
 
-client.run("")
+@client.command()
+async def kendrick(ctx, *, arg):  
+  await ctx.send("https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg")
 
+client.run("")
 
