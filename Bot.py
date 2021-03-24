@@ -423,5 +423,9 @@ async def amogus(ctx):
 async def kendrick(ctx):  
   await ctx.send("https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg")
 
-client.run("")
+@client.command()
+async def car(ctx):  
+  await ctx.send("Peace up, A-Town down Yeah! Okay Usher, Usher, Usher Lil' Jon Yeah, yeah, yeah, yeah, yeah, yeah Yeah, yeah, yeah, yeah, yeah, yeah Up in the club with my homies, trying to get a lil' V-I Keep it down on the low key You should know how it feels (hey) I seen shorty, she was checking up on me From the game she was spitting in my ear You would think that she know me I decided to chill (okay!) Conversation got heavy She had me feeling like she's ready to blow (watch out!) Oh! (watch out) She's saying, come get me So I got up and followed her to the floor She said, baby let's go When I told her (let's go!) I said Yeah! Shorty got down low said, come and get me Yeah! Yeah! I got so caught up, I forgot she told me Yeah! Yeah! Her and my girl, they used to be the best of homies (Yeah!) Yeah! Next thing I knew, she was all up on me screaming Yeah yeah! yeah yeah! yeah, yeah Yeah yeah! yeah (yeah! yeah, yeah https://cdn.discordapp.com/attachments/822688536318836796/824127534358331392/GtkBEMBOjYwqOh_Z.mp4")
 
+
+client.run("")
