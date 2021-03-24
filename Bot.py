@@ -410,7 +410,11 @@ async def lyrics(ctx, *, arg):
 @client.command()
 async def ratio(ctx, *, arg):
   await ctx.send(f"{arg} has been ratioed by {ctx.author.mention} with the help of the Yang Gang! https://tenor.com/view/ratioed-yang-gang-andrew-yang-yang2020-congratulations-gif-14447592")
-		      				
+		    
+@client.command()
+async def credits(ctx, *, arg):  
+  await ctx.send("main bot developer: zokluke#4082. People that helped contributored to the bot/progect on github. Link to the github page: https://github.com/zokluke/FTABot")
+ 				
 client.run("")
   
   
