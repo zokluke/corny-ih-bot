@@ -412,15 +412,15 @@ async def ratio(ctx, *, arg):
   await ctx.send(f"{arg} has been ratioed by {ctx.author.mention} with the help of the Yang Gang! https://tenor.com/view/ratioed-yang-gang-andrew-yang-yang2020-congratulations-gif-14447592")
 
 @client.command()
-async def credits(ctx, *, arg):  
-  await ctx.send("main bot developer: zokluke#4082. People that helped contributored to the bot/progect on github. Link to the github page: https://github.com/zokluke/FTABot")
+async def credits(ctx):  
+  await ctx.send("main bot developer: zokluke#4082. People that contributed to the bot are listed on github. Link to the github page: https://github.com/zokluke/FTABot")
 
 @client.command()
-async def amogus(ctx, *, arg):  
+async def amogus(ctx):  
   await ctx.send("ඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞ red is sus! ඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞඞ")
 
 @client.command()
-async def kendrick(ctx, *, arg):  
+async def kendrick(ctx):  
   await ctx.send("https://open.spotify.com/artist/2YZyLoL8N0Wb9xBt1NhZWg")
 
 client.run("")
