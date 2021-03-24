@@ -503,7 +503,6 @@ async def ltc(ctx):
 #thispersondoesnotexist
    
 @client.command(aliases = ['tpdne'])
-@commands.cooldown(1, 5, commands.BucketType.member)
 async def thispersondoesnotexist(ctx):
       """Send an AI generated image of a person."""
       try: 
@@ -517,11 +516,6 @@ async def thispersondoesnotexist(ctx):
         await ctx.send(file=discord.File('face.png'),embed = embed)
         f.close()
       except Exception as e:
-        print(e)  
-        
-@thispersondoesnotexist.error
-async def cooldown(ctx, error):
-      if isinstance(error, commands.errors.CommandOnCooldown):
-        await ctx.send(f"You are on cooldown! Cooldown will last 5 seconds from the last time you ran the command!")
+        await ctx.send(e) 
 
 client.run("")
