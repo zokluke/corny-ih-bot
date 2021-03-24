@@ -48,7 +48,7 @@ async def banner(ctx, *, message):
     try:
         bigtext = map(
             lambda c: f":{numbers[c]}: " if (c.isdigit()) \
-            else f":regional_indicator_{c.lower()}:" if (c.isalpha()) \
+            else f":regional_indicator_{c.lower()}: " if (c.isalpha()) \
             else "  " if (c == " ") \
             else "",
             message,
