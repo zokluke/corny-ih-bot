@@ -518,4 +518,19 @@ async def thispersondoesnotexist(ctx):
       except Exception as e:
         await ctx.send(e) 
 
+
+
+@client.command()
+async def stitchface(ctx):
+    await ctx.send(
+        "https://cdn.discordapp.com/attachments/790800043338760192/813121531869003826/video0_40.mp4"
+    )
+
+
+@client.command()
+async def dababy(ctx):
+    await ctx.send(
+        "picture of dababy: https://cdn.discordapp.com/attachments/805610014814240818/824186254361886760/Dababy_BabyOnBaby.png"
+    )
+
 client.run("")
