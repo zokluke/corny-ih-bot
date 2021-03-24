@@ -500,5 +500,28 @@ async def ltc(ctx):
     embed.set_image(url="https://thispersondoesnotexist.com/image")
     await ctx.send(embed=embed)
 
+#thispersondoesnotexist
+   
+@client.command(aliases = ['tpdne'])
+@commands.cooldown(1, 5, commands.BucketType.member)
+async def thispersondoesnotexist(ctx):
+      """Send an AI generated image of a person."""
+      try: 
+        headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36 Edg/88.0.705.63"}
+  
+        f = open('face.png', 'wb')
+        img = urllib.request.urlopen(urllib.request.Request('https://thispersondoesnotexist.com/image', headers = headers))
+        f.write(img.read())
+        embed = discord.Embed(title = 'This person does not exist.', color=discord.Color.orange())
+        embed.set_image(url = 'attachment://face.png')
+        await ctx.send(file=discord.File('face.png'),embed = embed)
+        f.close()
+      except Exception as e:
+        print(e)  
+        
+@thispersondoesnotexist.error
+async def cooldown(ctx, error):
+      if isinstance(error, commands.errors.CommandOnCooldown):
+        await ctx.send(f"You are on cooldown! Cooldown will last 5 seconds from the last time you ran the command!")
 
 client.run("")
