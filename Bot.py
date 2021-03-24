@@ -413,7 +413,7 @@ async def ratio(ctx, *, arg):
 		    
 @client.command()
 async def credits(ctx, *, arg):  
-  await ctx.send("main bot developer: zokluke#4082. People that helped contributored to the bot/progect on github. Link to the github page: https://github.com/zokluke/FTABot")
+  await ctx.send("main bot developer: zokluke#4082. People that helped contributored to the bot on github. Link to the github page: https://github.com/zokluke/FTABot")
  				
 client.run("")
   
