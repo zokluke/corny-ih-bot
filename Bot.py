@@ -26,6 +26,7 @@ numbers = [
     "seven",
     "eight",
     "nine",
+    "ten",
 ]
 
 
