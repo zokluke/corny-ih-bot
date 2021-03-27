@@ -158,7 +158,37 @@ async def delchannel(ctx, name):
         existing_channel = discord.utils.get(ctx.guild.channels, name=name)
         await existing_channel.delete()
 
+@client.command(aliases=["define", "urb"])
+async def _defines_whatever_you_want(ctx, *args):
+    word = " ".join(args)
+    r = requests.get(f"http://api.urbandictionary.com/v0/define?term={word}", headers = {'User-agent': "your bot 0.1"})
+    json = r.json()
+    theList = json["list"]
 
+    e = theList[0]
+
+    definition = e["definition"]
+    permalink = e["permalink"]
+    thumbs_up = e["thumbs_up"]
+    sound_urls = e["sound_urls"]
+    author = e["author"]
+    word = e["word"]
+    defid = e["defid"]
+    written_on = e["written_on"]
+    example = e["example"]
+    thumbs_down = e["thumbs_down"]
+
+    embed = discord.Embed(
+        title = word,
+        colour = discord.Colour(client_hexcolor),
+        url = permalink
+    )
+    embed.add_field(name="Definition:", value = definition, inline = False)
+    embed.add_field(name="Example:", value = example, inline = False)
+
+    embed.set_footer(text=f"{thumbs_up}🔼  |  {thumbs_down}🔽 - Created By {author} - {written_on}")
+    await ctx.send(embed=embed)
+    
 @client.command()
 async def banggang(ctx):
     await ctx.send(
