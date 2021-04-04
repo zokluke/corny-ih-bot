@@ -10,10 +10,25 @@ import aiohttp
 import io
 import urllib
 import datetime
+import asyncio
+
+
 
 noPerms = "s-sorry daddy... you are missing perms... >w<"
 
 client = commands.Bot(command_prefix=">")
+client.remove_command("help")
+
+
+
+@client.command()
+async def help(ctx):
+    embed=discord.Embed(title="Commands", url="https://discord.com/invite/cum", color=0xebcbe9)
+    embed.set_author(name="Fembot Help", url="https://discord.com/invite/cum", icon_url="https://cdn.discordapp.com/avatars/790766377245474846/b3381956ade77026f8e750ee80814768.png?size=2048")
+    embed.add_field(name="Image stuff", value="avatar (user) -- sends users avatar\nwasted (user) -- adds gta's WASTED to a users avatar\ngay (user) -- turns a user's avatar gay\nred (user) -- turns a users avatar red\npixelate (user) -- pixelates a user's avatar\ngreen (user) -- turns a users avatar green\nblue (user) -- turns a user's avatar blue\ncomment (text) -- makes a youtube comment with the specified text\ntriggered (user) -- makes user triggered\ngreyscale (user) -- turns a users avatar grey\ninvert (user) -- inverts the colors of a users avatar", inline=True)
+    embed.set_footer(text="Fembot | >credits | zokluke/FTABot")
+    await ctx.send(embed=embed)
+
 
 numbers = [
     "zero",
@@ -29,42 +44,64 @@ numbers = [
 ]
 
 
-@client.command()
-async def rape(ctx, *, message=None):
-    """Rape someone 😈"""
-    sus = message.lower()
-    await ctx.channel.send(f"{ctx.message.author.mention} raped {sus} 😈")
+
+noPerms = "s-sorry daddy... you are missing perms... >w<"
 
 
 @client.command()
-async def say(ctx, *, message=None):
-    """Say something funny"""
-    await ctx.send(message)
+@has_permissions(manage_messages=True)
+async def kick(ctx, member: discord.Member, *, reason=None):
+    print("Kicked user")
+    await member.send(
+        f"you were kicked from the federal troll agency | {reason} | kicked by: {ctx.message.author}"
+    )
+    await ctx.guild.get_channel(821255568324034581).send(f"{member.id}({member.name}) was kicked by {ctx.message.author} | {reason}")
+    await member.kick(reason=f"{reason} - Responsible User | {ctx.message.author}")
+
+@client.command()
+@has_permissions(manage_messages=True)
+async def ban(ctx, member: discord.Member, *, reason=None):
+    print("Kicked user")
+    await ctx.send(f"FREE {member.name.upper()} HE DINDU NUFFIN")
+    await member.send(
+        f"you were banned from the federal troll agency | {reason} | banned by: {ctx.message.author}"
+    )
+    await ctx.guild.get_channel(821255568324034581).send(f"{member.id}({member.name}) was BANNED by {ctx.message.author} | {reason}")
+    await member.ban(reason=f"{reason} - Responsible User | {ctx.message.author}")
+
+@client.command()
+@has_permissions(manage_messages=True)
+async def zokmethod(ctx, member: discord.Member, *, reason=None):
+    reason = "rule 10"
+    print("Kicked user")
+    await ctx.send(f"{member.name} was banned for rule 10")
+    await member.send(
+        f"you were banned from the federal troll agency | {reason} | banned by: {ctx.message.author}"
+    )
+    await ctx.guild.get_channel(821255568324034581).send(f"{member.id}({member.name}) was BANNED by {ctx.message.author} | {reason}")
+    await member.ban(reason=f"{reason} - Responsible User | {ctx.message.author}")
+
+
+
 
 
 @client.command()
 async def banner(ctx, *, message):
     """Emojify the text"""
-    try:
-        bigtext = map(
-            lambda c: f":{numbers[c]}: " if (c.isdigit()) \
-            else f":regional_indicator_{c.lower()}: " if (c.isalpha()) \
-            else "  " if (c == " ") \
-            else "",
-            message,
-        )
-        await ctx.send("".join(bigtext)[:-1])
-    except Exception as e:
-        await ctx.send(e)
+    if not "nigger" in message:
+        try:
+            bigtext = map(
+                lambda c: f":{numbers[c]}: " if (c.isdigit()) \
+                else f":regional_indicator_{c.lower()}: " if (c.isalpha()) \
+                else "  " if (c == " ") \
+                else "",
+                message,
+            )
+            await ctx.send("".join(bigtext)[:-1])
+        except Exception as e:
+            await ctx.send(e)
 
 
-@client.command()
-async def clap(ctx, *, message):
-    """Make the bot say whatever you want with claps!"""
-    try:
-        await ctx.send(re.sub(r"\s+", " :clap: ", message) + " :clap: ")
-    except Exception as e:
-        await ctx.send(e)
 
 
 @client.command(aliases=["8ball", "question"])
@@ -103,30 +140,12 @@ async def _8ball(ctx, *, question):
         await ctx.send(e)
 
 
-@client.command()
-@has_permissions(manage_messages=True)
-async def kick(ctx, member: discord.Member, *, reason=None):
-    print("Kicked user")
-    await member.send(
-        f"you were kicked from the federal troll agency | {reason} | kicked by: {ctx.message.author}"
-    )
-    await member.kick(reason=f"{reason} - Responsible User | {ctx.message.author}")
 
 
 @client.command()
 async def nukecount(ctx):
     await ctx.send("fta has been nuked 7 tiems!11!1 :3")
 
-
-@client.command()
-@has_permissions(manage_messages=True)
-async def ban(ctx, member: discord.Member, *, reason=None):
-    print("Kicked user")
-    await ctx.send(f"FREE {member.name.upper()} HE DINDU NUFFIN")
-    await member.send(
-        f"you were banned from the federal troll agency | {reason} | banned by: {ctx.message.author}"
-    )
-    await member.ban(reason=f"{reason} - Responsible User | {ctx.message.author}")
 
 
 @client.command()
@@ -158,37 +177,7 @@ async def delchannel(ctx, name):
         existing_channel = discord.utils.get(ctx.guild.channels, name=name)
         await existing_channel.delete()
 
-@client.command(aliases=["define", "urb"])
-async def _defines_whatever_you_want(ctx, *args):
-    word = " ".join(args)
-    r = requests.get(f"http://api.urbandictionary.com/v0/define?term={word}", headers = {'User-agent': "your bot 0.1"})
-    json = r.json()
-    theList = json["list"]
 
-    e = theList[0]
-
-    definition = e["definition"]
-    permalink = e["permalink"]
-    thumbs_up = e["thumbs_up"]
-    sound_urls = e["sound_urls"]
-    author = e["author"]
-    word = e["word"]
-    defid = e["defid"]
-    written_on = e["written_on"]
-    example = e["example"]
-    thumbs_down = e["thumbs_down"]
-
-    embed = discord.Embed(
-        title = word,
-        colour = discord.Colour(client_hexcolor),
-        url = permalink
-    )
-    embed.add_field(name="Definition:", value = definition, inline = False)
-    embed.add_field(name="Example:", value = example, inline = False)
-
-    embed.set_footer(text=f"{thumbs_up}🔼  |  {thumbs_down}🔽 - Created By {author} - {written_on}")
-    await ctx.send(embed=embed)
-    
 @client.command()
 async def banggang(ctx):
     await ctx.send(
@@ -243,6 +232,7 @@ async def kanye(ctx):
     await ctx.send(embed=embed)
 
 
+
 @client.command(aliases=["yt"])
 async def youtube(ctx, *, query):
     async with aiohttp.ClientSession() as cs:
@@ -256,6 +246,73 @@ async def youtube(ctx, *, query):
                 return
             url = res["url"]
             await ctx.send(f"{url}")
+
+@client.command(aliases=["ttf"])
+async def translatetofrench(ctx, *, query):
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(
+            f"https://normal-api.ml/translate?text={query}&to=fr"
+        ) as r:
+            response = await r.text()
+            res = json.loads(response)
+            if res["status"] != "200":
+                await ctx.send("can't find video #sad")
+                return
+            url = res["translated"]
+            await ctx.send(f"{url}")
+
+@client.command(aliases=["sfn"])
+async def safenote(ctx, *, query):
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(
+            f"https://normal-api.ml/safenote?note={query}"
+        ) as r:
+            response = await r.text()
+            res = json.loads(response)
+            if res["status"] != "200":
+                await ctx.send("da shih broke my homie!!")
+                return
+            url = res["url"]
+            await ctx.send(f"{url}")
+@client.command(aliases=["img"])
+@has_permissions(manage_messages=True)
+async def image(ctx, *, query):
+    await ctx.trigger_typing()
+    async with aiohttp.ClientSession() as cs:
+        async with cs.get(
+            f"https://normal-api.ml/image-search?query={query}"
+        ) as r:
+            response = await r.text()
+            res = json.loads(response)
+            if res["status"] != "200":
+                await ctx.send("da shih broke my homie!!")
+                return
+            url = res["image"]
+            await ctx.send(f"{url}")
+
+suasodaisduaisudaisds="hhhhhhhhhhhhh"
+@client.command(aliases=["ii"])
+async def inviteinfo(ctx, *, query):
+    try:
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get(
+                f"https://normal-api.ml/inviteinfo?code={query}"
+            ) as r:
+                response = await r.text()
+                res = json.loads(response)
+                if res["status"] != "200":
+                    await ctx.send("error!!! gay!!!")
+                    return
+                code = res["code"]
+                
+                gname = res["guild_name"]
+                iname = res["inviter_tag"]
+                channame = res["channel_name"]
+                guild_members=res["guild_members"]
+                await ctx.send(f"invite code: {code}\nserver name: {gname}\ninviter name: {iname}\nchannel name: {channame}\nmember count: {guild_members}")
+    except Exception as e:
+        await ctx.send(f"error:({e})")
+
 
 
 @client.command(aliases=["memes"])
@@ -275,7 +332,7 @@ async def meme(ctx):
 
 
 @client.command()
-@commands.cooldown(1, 30, commands.BucketType.guild)
+
 async def neko(ctx):
     url = "https://waifu.pics/api/sfw/neko"
     res1 = requests.request("GET", url)
@@ -287,7 +344,7 @@ async def neko(ctx):
 
 
 @client.command(aliases=["w"])
-@commands.cooldown(1, 30, commands.BucketType.guild)
+
 async def waifu(ctx):
     url = "https://waifu.pics/api/sfw/waifu"
     res1 = requests.request("GET", url)
@@ -371,6 +428,91 @@ async def gay(ctx, member: discord.Member = None):
             await ctx.send(file=discord.File(data, "gay.png"))
             await wastedsession.close()
 
+@client.command()
+async def red(ctx, member: discord.Member = None):
+    if not member:
+        member = ctx.author
+
+    wastedsession = aiohttp.ClientSession()
+    async with wastedsession.get(
+        f"https://some-random-api.ml/canvas/red?avatar={member.avatar_url_as(format='png')}"
+    ) as img:
+        if img.status != 200:
+            await ctx.send("no image!! absolute FAILURE")
+            await wastedsession.close()
+        else:
+            data = io.BytesIO(await img.read())
+            await ctx.send(file=discord.File(data, "red.png"))
+            await wastedsession.close()
+
+@client.command()
+async def pixelate(ctx, member: discord.Member = None):
+    if not member:
+        member = ctx.author
+
+    wastedsession = aiohttp.ClientSession()
+    async with wastedsession.get(
+        f"https://some-random-api.ml/canvas/pixelate?avatar={member.avatar_url_as(format='png')}"
+    ) as img:
+        if img.status != 200:
+            await ctx.send("no image!! absolute FAILURE")
+            await wastedsession.close()
+        else:
+            data = io.BytesIO(await img.read())
+            await ctx.send(file=discord.File(data, "pixelate.png"))
+            await wastedsession.close()
+
+@client.command()
+async def green(ctx, member: discord.Member = None):
+    if not member:
+        member = ctx.author
+
+    wastedsession = aiohttp.ClientSession()
+    async with wastedsession.get(
+        f"https://some-random-api.ml/canvas/green?avatar={member.avatar_url_as(format='png')}"
+    ) as img:
+        if img.status != 200:
+            await ctx.send("no image!! absolute FAILURE")
+            await wastedsession.close()
+        else:
+            data = io.BytesIO(await img.read())
+            await ctx.send(file=discord.File(data, "green.png"))
+            await wastedsession.close()
+
+@client.command()
+async def blue(ctx, member: discord.Member = None):
+    if not member:
+        member = ctx.author
+
+    wastedsession = aiohttp.ClientSession()
+    async with wastedsession.get(
+        f"https://some-random-api.ml/canvas/blue?avatar={member.avatar_url_as(format='png')}"
+    ) as img:
+        if img.status != 200:
+            await ctx.send("no image!! absolute FAILURE")
+            await wastedsession.close()
+        else:
+            data = io.BytesIO(await img.read())
+            await ctx.send(file=discord.File(data, "blue.png"))
+            await wastedsession.close()
+
+@client.command()
+async def comment(ctx, *, comment):
+    member = ctx.author
+
+    wastedsession = aiohttp.ClientSession()
+    async with wastedsession.get(
+        f"https://some-random-api.ml/canvas/youtube-comment?avatar={member.avatar_url_as(format='png')}&comment={comment}&username={member.name}"
+    ) as img:
+        if img.status != 200:
+            await ctx.send("no image!! absolute FAILURE")
+            await wastedsession.close()
+        else:
+            data = io.BytesIO(await img.read())
+            await ctx.send(file=discord.File(data, "youtube.png"))
+            await wastedsession.close()
+
+            
 
 @client.command()
 async def triggered(ctx, member: discord.Member = None):
@@ -489,12 +631,7 @@ async def lyrics(ctx, *, arg):
     # thanks 2 randomapi
 
 
-@client.command()
-async def ratio(ctx, *, arg):
-    await ctx.send(
-        f"{arg} has been ratioed by {ctx.author.mention} with the help of the Yang Gang! https://tenor.com/view/ratioed-yang-gang-andrew-yang-yang2020-congratulations-gif-14447592"
-    )
-
+    
 
 @client.command()
 async def credits(ctx):
@@ -546,21 +683,70 @@ async def thispersondoesnotexist(ctx):
         await ctx.send(file=discord.File('face.png'),embed = embed)
         f.close()
       except Exception as e:
-        await ctx.send(e) 
-
-
-
-@client.command()
-async def stitchface(ctx):
-    await ctx.send(
-        "https://cdn.discordapp.com/attachments/790800043338760192/813121531869003826/video0_40.mp4"
-    )
-
+        await ctx.send(e)
+@client.command(aliases= ["guilds"])
+async def servers(ctx):
+    await ctx.send( f"fembot is in {len(client.guilds)} servers! >w<")
 
 @client.command()
-async def dababy(ctx):
-    await ctx.send(
-        "picture of dababy: https://cdn.discordapp.com/attachments/805610014814240818/824186254361886760/Dababy_BabyOnBaby.png"
+@has_permissions(manage_messages=True)
+async def pettymethod(ctx, member: discord.Member, *, reason=None):
+    reason="BECAUSE THEY FUCKING SUCK PUSSY!!!!"
+    print("Kicked user")
+    await ctx.send(f"I BANNED {member.name.upper()} BECAUSE THE FUCKING SUCK AND ARE A PUSSY!!!")
+    await member.send(
+        f"you were banned from the federal troll agency | BECAUSE YOU FUCKING SUCK PUSSY!!! | banned by: {ctx.message.author}"
     )
+    await ctx.guild.get_channel(821255568324034581).send(f"{member.id}({member.name}) was BANNED by {ctx.message.author} | {reason}")
+    await member.ban(reason=f"{reason} - Responsible User | {ctx.message.author}")
+
+@client.command()
+async def chatbot(ctx, *, arg):
+    """
+    Chats with you!
+    """
+    arg = arg.replace(" ", "+")
+
+    lrcsession = aiohttp.ClientSession()
+    async with lrcsession.get(
+        f"https://some-random-api.ml/chatbot?message={arg}&key=9ee3lZlMolKl0oRpHsQgar9AI"
+    ) as sgetlnk:
+        lrcdata = await sgetlnk.json()
+    await ctx.send(lrcdata['response'])
+    await lrcsession.close()
+
+@client.command()
+async def greyscale(ctx, member: discord.Member = None):
+    if not member:
+        member = ctx.author
+
+    wastedsession = aiohttp.ClientSession()
+    async with wastedsession.get(
+        f"https://some-random-api.ml/canvas/greyscale?avatar={member.avatar_url_as(format='png')}"
+    ) as img:
+        if img.status != 200:
+            await ctx.send("no image!! absolute FAILURE")
+            await wastedsession.close()
+        else:
+            data = io.BytesIO(await img.read())
+            await ctx.send(file=discord.File(data, "greyscale.png"))
+            await wastedsession.close()
+
+@client.command()
+async def invert(ctx, member: discord.Member = None):
+    if not member:
+        member = ctx.author
+
+    wastedsession = aiohttp.ClientSession()
+    async with wastedsession.get(
+        f"https://some-random-api.ml/canvas/invert?avatar={member.avatar_url_as(format='png')}"
+    ) as img:
+        if img.status != 200:
+            await ctx.send("no image!! absolute FAILURE")
+            await wastedsession.close()
+        else:
+            data = io.BytesIO(await img.read())
+            await ctx.send(file=discord.File(data, "invert.png"))
+            await wastedsession.close()
 
 client.run("")
