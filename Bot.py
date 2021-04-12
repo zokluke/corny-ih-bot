@@ -10,6 +10,7 @@ import aiohttp
 import io
 import urllib
 import datetime
+from datetime import datetime
 import asyncio
 
 
@@ -47,6 +48,16 @@ numbers = [
 
 noPerms = "s-sorry daddy... you are missing perms... >w<"
 
+@client.event
+async def on_member_join(member):
+    created = member.created_at
+    now = datetime.now() 
+    susss = (now - created).days
+
+    if susss < 10:
+        await member.send("hi rai der")
+        await member.ban(reason="hi")
+        await ctx.guild.get_channel(821255568324034581).send(f'{member.id} banned for: Account age is under 10.')
 
 @client.command()
 @has_permissions(manage_messages=True)
@@ -57,6 +68,35 @@ async def kick(ctx, member: discord.Member, *, reason=None):
     )
     await ctx.guild.get_channel(821255568324034581).send(f"{member.id}({member.name}) was kicked by {ctx.message.author} | {reason}")
     await member.kick(reason=f"{reason} - Responsible User | {ctx.message.author}")
+
+@client.command(name="whois", aliases=["memberinfo"])
+async def whois(ctx, member:discord.Member =  None):
+
+    
+
+    if member is None:
+        member = ctx.author
+        roles = [role for role in ctx.author.roles]
+
+    else:
+        roles = [role for role in member.roles]
+
+    embed = discord.Embed(title=f"{member}", colour=member.colour, timestamp=ctx.message.created_at)
+    embed.set_footer(text=f"Requested by: {ctx.author}", icon_url=ctx.author.avatar_url)
+    embed.set_author(name="User Info: ")
+    embed.add_field(name="ID:", value=member.id, inline=False)
+    embed.add_field(name="User Name:",value=member.display_name, inline=False)
+    embed.add_field(name="Discriminator:",value=member.discriminator, inline=False)
+    embed.add_field(name="Current Status:", value=str(member.status).title(), inline=False)
+    embed.add_field(name="Current Activity:", value=f"{str(member.activity.type).title().split('.')[1]} {member.activity.name}" if member.activity is not None else "None", inline=False)
+    embed.add_field(name="Created At:", value=member.created_at.strftime("%a, %d, %B, %Y, %I, %M, %p UTC"), inline=False)
+    embed.add_field(name="Joined At:", value=member.joined_at.strftime("%a, %d, %B, %Y, %I, %M, %p UTC"), inline=False)
+    embed.add_field(name=f"Roles [{len(roles)}]", value=" **|** ".join([role.mention for role in roles]), inline=False)
+    embed.add_field(name="Top Role:", value=member.top_role, inline=False)
+    embed.add_field(name="Bot?:", value=member.bot, inline=False)
+
+    await ctx.send(embed=embed)
+    return
 
 @client.command()
 @has_permissions(manage_messages=True)
@@ -101,43 +141,6 @@ async def banner(ctx, *, message):
         except Exception as e:
             await ctx.send(e)
 
-
-
-
-@client.command(aliases=["8ball", "question"])
-async def _8ball(ctx, *, question):
-    """Ask fta your questions"""
-    responses = [
-        "It is certain.",
-        "It is decidedly so.",
-        "Without a doubt.",
-        "Yes - definitely.",
-        "You may rely on it.",
-        "As I see it, yes.",
-        "Most likely.",
-        "Outlook good.",
-        "Yes.",
-        "Signs point to yes.",
-        "Reply hazy, try again.",
-        "Ask again later.",
-        "Better not tell you now.",
-        "Cannot predict now.",
-        "Concentrate and ask again.",
-        "Don't count on it.",
-        "My reply is no.",
-        "My sources say no.",
-        "Outlook not so good.",
-        "Very doubtful.",
-        "O̴̡͉̓̆̉̿̅̇̋͘͝͠͝ṷ̴̡̢̨͔͔̘̱͍͓̺͎́̕ṱ̸̙̆͌̎̄̃̈͆̀̎̂͜l̵̛͕̍͊́̌̐͒̓̊̀̚͝o̵͍̖̠̜̝̹̤͋̀̉̄͑͗͜͝͝o̵̧̲̺̲̻̝͗̍̓̋̂̄̈́͗̕k̶̡̡͔̦̹̬̩̥̐́̈́ͅ ̵̡̧̩̟͈͓̰͉̰̹̬̜̰͓͓̔̅͑̌̐̊̔͘n̴̲̟̙̣̖̮͖̔́͌̾́̎͗͂̽͐͠o̷̭͖̦̠̥̒̿͐ţ̸̹̞͕̫̩͙͍͖̓̈́̀̎̀́̓̾̎̃͌͘̕̕͜͜͝ ̸̨̨̹̲͍̪̯̥͖͙̈́̌̌̊́̋̅͑̑͠͠s̶̨̡͔̰̘̻̣̞͈̯̮̺̪̫͌̈̈́̅͐̓͝o̷̧̜̥͔̳̯͈̿ ̸̢̛̬͙̲͕̲͇͙̝̯̺͙̈̋̿̓̓͂̂̋͝ǧ̴̢̱̥͙͇́̄́̽͒͒̓̚ó̷͚͓̾́̀̅̎̆͑̍͑̓́͠͝ͅò̷̤̲͔̱͍̦͔̈́̆͘̕͠͝d̵̢̡̛̺̖͇͔͈̰̩̀.̷̧̡̮͕͖͍̳͎̜͔̭͊͋͐̅̽̋̂̋",
-        "C̶̢̥̤͔͖̖̠͚̦̺̲̮̪̈́ͅa̶͇̣͍̩̭͕̪̰̼̭̣̰͉͚̔̊̄͊n̵̲̗̭̊́͊̌̀̎͗͆͘̚͠n̵̮̏̽̋̾͂̈́́̋̇̿̚͠ͅơ̶̧̨̫͎̩̳̬̤̊̈́͗́̐͑̂̕̕͠͝t̶̳͓̦̟̬̲͓̄̿͗̓̃̈́͑ͅ ̸̧͙̖̺̤̜̯̫̟̘̋̍̈́͘p̸̪͌͗̈́̂͆̂̊̐̚r̴̛̛̛̺̣̄͌̿̔̏̈́̂͌͋̔̆͝ė̶̢̢͕̪̼̙͈͕̼̏̌̒̈́͝d̸͔͕͖͓̭͙̯̗͚̱͕̫̰͚͖̉̎̓͛̓î̶̢̛̱͎̮͈͙̟̖̬̓̐̈́̄̿̔͌̓̏͝͝ͅͅc̸̫͈̣̜͈͚͚͚̘͚̞͔͉̋̂̈́͜ṫ̷̪͔̌͑̌̽̾̏̊̐ ̷̧̰̟̱͇̳̮̩͎̯̼̰̀̑̑́̍̅̅̀̀̀̐͠͝ǹ̵̨͔͎̣̰̹̭̎̀͊̒̓͐͛͑̓̏̔́͝o̶̭̬̥̘̪͔̲͎̹̓̑̂̒̄͂͊̔̈̽̈́̏̏͜w̷̰̯̪̬͇̻͛̌̏́̒́̈́̋̐̚.̶̠̙̒̄̀̀̔",
-        "I̵̢̛͎̽̈́́̿͊̂̊̋̾̀̌t̷͖̺͔͎͕̞̙̿͂́̅͛͐̽̇̽̃̓͌́̈́͐ ̵̧̜̤̩͚̖͚̖̯̞̈́͛͑̈̐͐́͒́͛͘i̵̧̛͇̖̤̗͙͕̫̰̳͕̖̗̔̌̀̓s̶̤͌̀̄͊͊̾̆͊͒̐̍̃͜ ̶̨͈̤̮̙͙͕̖̮̑͂c̸̨̢̜̝͎̝̣͚̳͍̙͈͖̖͆̃͗̾̏̉̿͌̇̊͘̕ȩ̶̡̛͕͖̪̗̗̲̜̪̼̝͎̺̀̆̎͂̓̍̍̌̉̀͗͝ŕ̵̛̞̟̇̀̆t̷̳̣̮̻̹͈̗̦̣͊̀̈́̎ͅȧ̴̢͎̘̯̺̹̝̣͓̗̇̈́̾͌̔̐̈́͋̆̇͂̈́͝ḯ̷̩̬͎̯̙̙͙̩̦͇̣̘̰̱̼̊̀̅̊̀͒̀͘͝n̶̨̞̲̰̹͎̬̩̲̍̅̒̄͋̋͆̚͘.̸̮̅̀",
-        "Cᔑリリ𝙹ℸ ̣  !¡∷ᒷ↸╎ᓵℸ ̣  リ𝙹∴.",
-        "Aᓭꖌ ᔑ⊣ᔑ╎リ ꖎᔑℸ ̣ ᒷ∷.",
-    ]
-    try:
-        await ctx.send(f"Question: {question}\nAnswer: {random.choice(responses)}")
-    except Exception as e:
-        await ctx.send(e)
 
 
 
@@ -587,6 +590,12 @@ async def nekohentai(ctx):
     else:
         await ctx.channel.send("this channel is sfw :((")
 
+@client.command()
+async def killbot(ctx):
+    if ctx.message.author.id==530876049983143945:
+        await client.logout()
+
+
 
 @client.command(aliases=["lrcs"])
 async def lyrics(ctx, *, arg):
@@ -749,4 +758,4 @@ async def invert(ctx, member: discord.Member = None):
             await ctx.send(file=discord.File(data, "invert.png"))
             await wastedsession.close()
 
-client.run("")
+client.run
